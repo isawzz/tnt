@@ -106,6 +106,10 @@ West:
                 tile: London
                 type: Fleet
                 cv: 4
+            Britain:
+                tile: Gibraltar
+                type: Fortress
+                cv: 1
             France:
                 tile: Lorraine
                 type: Fortress
