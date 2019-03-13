@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="./js-yaml.js"></script>
+    <script src="./map_pos.js"></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div id="d1">
+        <img style="position:absolute" width="3400" height="2200" src="./TTmap.jpg" />
+      </div>
+    </div>
+    <script>
+      function getMapPos() {
+        var doc = jsyaml.load(mapPosStr);
+        return doc;
+      }
+      function getCoveringSvg(divEl) {
+        let mySvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        mySvg.setAttribute("version", "1.2");
+        mySvg.setAttribute("baseProfile", "tiny");
+        mySvg.style.width = 3400;
+        mySvg.style.height = 2200;
+        mySvg.style.position = "absolute";
+        divEl.appendChild(mySvg);
+        return mySvg;
+      }
+      function addCircle(svgEl, x, y) {
+        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", x);
+        circle.setAttribute("cy", y);
+        circle.setAttribute("r", "100");
+        circle.setAttribute("class", "region");
+        svgEl.appendChild(circle);
+        return circle;
+      }
+
+      var dPos = getMapPos();
+      const d1 = document.getElementById("d1");
+      let sv = getCoveringSvg(d1);
+      for (k of Object.keys(dPos)) {
+        let p = dPos[k];
+        let region = addCircle(sv, p.x, p.y);
+        region.id = k;
+        region.addEventListener('click',ev=>console.log('clicked on '+ev.target.id));
+      }
+    </script>
+  </body>
+</html>
